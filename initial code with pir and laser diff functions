@@ -1,0 +1,125 @@
+flag = 0;
+flag1 = 0;
+int laser1 = ;
+int laser2 = ;
+int parkinglaser = ;
+int pir1_pin = ;
+int pir2_pin = ;
+
+//--------All variables--------------------------------------------------
+
+int laser_detect()
+{
+  int A = analogRead(laser1);
+  int B = analogRead(laser2) ;
+  int C = analogRead(parkinglaser);
+
+if(A<300 || B <300|| c>300)
+     {
+      Serial.println("intrusion detected by the laser somewhere ");
+      return(1);
+     }
+
+
+
+  
+}
+///-----------------laser detects ---------------------------------------
+
+int pir_detect()
+{
+  int pir1=digitalRead(pir1_pin);
+  int pir2=digitalRead(pir2_pin);
+
+  if(pir1==1||pir2==1)
+   {
+    return(1);
+   }
+
+
+  
+}
+
+
+//---------------pir sensor --------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <Keypad.h>
+
+const byte ROWS = 4; 
+const byte COLS = 4; 
+
+char hexaKeys[ROWS][COLS] = {
+  {'1', '2', '3', 'A'},
+  {'4', '5', '6', 'B'},
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
+};
+
+byte rowPins[ROWS] = {9, 8, 7, 6}; 
+byte colPins[COLS] = {5, 4, 3, 2}; 
+
+Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
+char new_password[5];
+char initial_password[5] = { '1' , '2' , '3' ,  '4' , '\0' } ;
+int i=0;
+int count=0 ;
+
+
+
+void setup(){
+  Serial.begin(9600);
+  pinMode(laser1,INPUT);
+  pinMode(laser2,INPUT); 
+  pinMode(parkinglaser,INPUT); 
+  pinMode(pir1_pin,INPUT); 
+  pinMode(pir2_pin,INPUT); 
+}
+  
+void loop(){
+  Serial.println("programme can work here easily and is not trapped ");
+  
+  char customKey = customKeypad.getKey();
+  
+  if (customKey)
+  {
+     new_password[i++]=customKey;
+     Serial.println(customKey);
+     Serial.println();
+  }
+  if(i==4)
+  {     new_password[4]= { '\0' } ;
+          
+       delay(300);
+       Serial.println(strcmp(initial_password,new_password));
+      if(!strcmp(initial_password,new_password))
+        {  delay(1000);
+           
+          Serial.println("Correct password");
+          delay(2000);
+          i=0;          
+        }
+      else
+        {
+          Serial.println("wrong password");
+          delay(2000);
+          i=0;
+        }
+  
+  }
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\else comes here ,everything is calculated here 
+  
+}
