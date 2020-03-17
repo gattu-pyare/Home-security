@@ -1,0 +1,72 @@
+#include <Keypad.h>
+
+const byte ROWS = 4; 
+const byte COLS = 4; 
+
+char hexaKeys[ROWS][COLS] = {
+  {'1', '2', '3', 'A'},
+  {'4', '5', '6', 'B'},
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
+};
+
+byte rowPins[ROWS] = {9, 8, 7, 6}; 
+byte colPins[COLS] = {5, 4, 3, 2}; 
+
+Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
+char new_password[5];
+char initial_password[5] = { '1' , '2' , '3' ,  '4' , '\0' } ;
+int i=0;
+int count=0 ;
+
+
+
+void setup(){
+  Serial.begin(9600);
+}
+  
+void loop(){
+  Serial.println("programme can work here easily and is not trapped ");
+  
+  char customKey = customKeypad.getKey();
+  
+  if (customKey)
+  {
+     new_password[i++]=customKey;
+     Serial.println(customKey);
+     Serial.println();
+  }
+  if(i==4)
+  {     new_password[4]= { '\0' } ;
+        delay(3000);
+  
+       for(count=0;count<4;count++)
+        { Serial.print( "count:-");
+          Serial.print(initial_password[count]);
+          Serial.println();   
+        }
+        Serial.println();
+        for(count=0;count<4;count++)
+        {
+          Serial.print(new_password[count]);
+          Serial.println();   
+        }
+            
+       delay(3000);
+       Serial.println(strcmp(initial_password,new_password));
+      if(!strcmp(initial_password,new_password))
+        {  delay(1000);
+           
+          Serial.println("Correct password");
+          delay(2000);
+          i=0;          
+        }
+      else
+        {
+          Serial.println("wrong password");
+          delay(2000);
+          i=0;
+        }
+  
+  }
+}
